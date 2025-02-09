@@ -1,13 +1,13 @@
-const NEWS_API_KEY = "85d295aff75a4d8e95d9640fc41c85f9"; // newsApi key
+const GNEWS_API_KEY = "4d2607c82545680eabea2e01b9075699"; // Replace with your GNews API key
 const WEATHER_API_KEY = "3fc727f143c08c298801a7df1d865ddf"; // OpenWeather API key
-let currentCategory = "technology"; 
+let currentCategory = "technology";
 
-// Fetch News
+// Fetch News from GNews
 async function fetchNews(query = "") {
     try {
-        let url = `https://newsapi.org/v2/top-headlines?country=us&category=${currentCategory}&apiKey=${NEWS_API_KEY}`;
+        let url = `https://gnews.io/api/v4/top-headlines?category=${currentCategory}&lang=en&apikey=${GNEWS_API_KEY}`;
         if (query) {
-            url = `https://newsapi.org/v2/everything?q=${query}&language=en&apiKey=${NEWS_API_KEY}`;
+            url = `https://gnews.io/api/v4/search?q=${query}&lang=en&apikey=${GNEWS_API_KEY}`;
         }
 
         const response = await fetch(url);
@@ -30,12 +30,12 @@ function displayNews(articles) {
     newsContainer.innerHTML = "";
 
     articles.forEach(article => {
-        if (!article.urlToImage || !article.title || !article.description || !article.url) return;
+        if (!article.image || !article.title || !article.description || !article.url) return;
 
         const newsItem = document.createElement("div");
         newsItem.className = "news-item";
         newsItem.innerHTML = `
-            <img src="${article.urlToImage}" alt="News Image">
+            <img src="${article.image}" alt="News Image">
             <h3>${article.title}</h3>
             <p>${article.description}</p>
             <a href="${article.url}" target="_blank">Read more</a>
@@ -49,7 +49,9 @@ async function fetchWeather() {
     const location = document.getElementById("locationInput")?.value || "New York";
 
     try {
-        const weatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${WEATHER_API_KEY}&units=metric`);
+        const weatherResponse = await fetch(
+            `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${WEATHER_API_KEY}&units=metric`
+        );
         const weatherData = await weatherResponse.json();
 
         if (weatherData.cod !== 200) {
@@ -97,12 +99,15 @@ async function fetchWeather() {
 }
 
 // Update category
-function setCategory(category) {
+async function setCategory(category) {
     currentCategory = category;
-    fetchNews();
-    
+    await fetchNews();
+
     document.querySelectorAll(".categories button").forEach(btn => btn.classList.remove("active"));
-    document.querySelector(`.categories button[data-category="${category}"]`).classList.add("active");
+    const activeButton = document.querySelector(`.categories button[data-category="${category}"]`);
+    if (activeButton) {
+        activeButton.classList.add("active");
+    }
 }
 
 // Update Date & Time
