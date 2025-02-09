@@ -1,4 +1,4 @@
-const GNEWS_API_KEY = "4d2607c82545680eabea2e01b9075699"; // Replace with your GNews API key
+const GNEWS_API_KEY = "4d2607c82545680eabea2e01b9075699"; // Gnews API Key
 const WEATHER_API_KEY = "3fc727f143c08c298801a7df1d865ddf"; // OpenWeather API key
 let currentCategory = "technology";
 
