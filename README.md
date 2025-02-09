@@ -37,6 +37,9 @@ Make sure you have the following installed:
 
 5. **Open the application**
    - The project should now be running at `http://localhost:3000` (or another specified port).
+  
+## How to see the NEWS
+- As NEWS API is used so you have to download the all files in your local storage and then you have to run it. Enjoyyy!!!!
 
 ## Usage
 1. **View Latest News:** Browse the homepage to see trending news.
